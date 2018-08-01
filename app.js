@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 const index = require('./router/index')
 const movie = require('./router/movie')
 const pdf = require('./router/pdf')
+const news = require('./router/news')
+const traddingitems = require('./router/traddingitems')
 
 mongoose.connect(config.mongodb)
 mongoose.Promise = global.Promise
@@ -21,6 +23,8 @@ app.use(express.static('dist'))
 app.use('/',index)
 app.use('/api/movie',movie)
 app.use('/api/pdf',pdf)
+app.use('/api/traddingitems',traddingitems)
+app.use('/api/news',news)
 
 app.listen(port, () => {
   console.log(`${pkg.name} listening on port ${port}`)

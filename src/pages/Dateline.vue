@@ -11,8 +11,13 @@
               </span>
               <i v-on:click="addDayDetail(monthF(key),dayF(key,day))" class="icon iconfont icon-plus-circle"></i>
             </div>
-            <div class="day-detail">
-              
+            <div class="day-detail" v-if="isActiveDay(monthF(key),dayF(key,day))">
+              <div class="tradding-row" v-for="traddingItem in getTraddingItemByDay(monthF(key),dayF(key,day))">
+                <div class="tradding-direction">
+                  {{ traddingItem.isBuy ? 'B':'S'}}
+                </div>
+                <i v-on:click="addTraddingDetail(monthF(key),dayF(key,day))" class="icon iconfont icon-plus-circle "></i>
+              </div>
             </div>
           </div>
         </div>
@@ -35,8 +40,7 @@
         <mu-icon left value="check"></mu-icon>
         确定
       </mu-button>
-    </vodal>
-
+    </vodal> 
     <vodal :show="eidtingTraddingLogDetail" animation="slideDown" :width="500" :height="480" :closeButton="false">
       <mu-form :model="traddingMentalStatic" label-position="top" label-width="100"> 
         <mu-form-item prop="input" label="犯错类型">
@@ -118,6 +122,7 @@ export default {
       traddingitems:[],
       activeMonthMark:null,
       activeDaysMark:null,
+      traddingDaysDetail:null,
       eidtingDayDetail:false,
       eidtingTraddingLogDetail:false,
       //
@@ -135,6 +140,10 @@ export default {
   },
   methods: {
     addDayDetail:function(month,day){
+      this.eidtingDayDetail = true;
+      let date = this.year+month+day;
+    },
+    addTraddingDetail:function(month,day){
       this.eidtingTraddingLogDetail = true;
       let date = this.year+month+day;
     },
@@ -158,6 +167,9 @@ export default {
       d = this.monthOfDay[m]-d+1;
       return d < 10 ? '0'+ d : d; 
     },
+    getTraddingItemByDay(month,day){
+      return this.traddingDaysDetail[this.year+month+day];
+    },
     getTraddingLog() {
       var that = this;
       this.$http.get('/api/traddingitems/getall')
@@ -165,11 +177,20 @@ export default {
           that.traddingitems = res.data;
           that.activeDaysMark = {};
           that.activeMonthMark = {};
+          that.traddingDaysDetail = {};
           for(let i=0;i<that.traddingitems.length;i++){
             that.activeDaysMark[that.traddingitems[i].date] = true;
             that.activeMonthMark[that.traddingitems[i].date.substr(0,6)] = true;
           }
           console.log(that.activeDaysMark)
+          for (let key in that.activeDaysMark) {  
+            that.traddingDaysDetail[key] = [];
+            for(let i=0;i<that.traddingitems.length;i++){
+              if(key == that.traddingitems[i].date){
+                that.traddingDaysDetail[key].push(that.traddingitems[i]); 
+              }
+            }
+          }     
         })
         .catch(err => {
           this.toastr.error(`${err.message}`, 'ERROR!')

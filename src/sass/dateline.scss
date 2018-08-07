@@ -47,7 +47,9 @@
       right: 20px;
       top:-10px;
     }
+
   }
+
   .day{
     display: block;
     line-height: 40px;
@@ -67,6 +69,41 @@
     }
     &.is-down{
 
+    }
+  }
+  .day-detail{
+    padding-left: 50px;
+    text-align: left;
+    .tradding-row{
+      position: relative;
+      height: 40px;
+      border-bottom: 1px dashed #aaa;
+
+      .icon-plus-circle{
+        cursor: pointer;
+        display: none;
+        color:#aaa;
+        font-size:30px;
+        position: absolute;
+        right: 20px;
+        top:-3px; 
+      }
+      &:hover{
+        background: #eee;
+        .icon-plus-circle{
+          display: block!important;
+        }
+      }
+    }
+    .tradding-direction{
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 30px;
+      border:1px dotted #aaa;
+      text-align: center;
+      margin-top: 5px;
     }
   }
 }

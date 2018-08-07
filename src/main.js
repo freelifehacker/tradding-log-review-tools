@@ -9,7 +9,8 @@ import 'toastr/build/toastr.min.css'
 import 'muse-ui/dist/muse-ui.css'
 import './assets/icon.css'
 import 'vodal/fade.css'
-
+// import theme from 'muse-ui/lib/theme';
+// theme.use('dark');
 Vue.use(MuseUI)
 Vue.prototype.$http = axios
 Vue.prototype.toastr = toastr

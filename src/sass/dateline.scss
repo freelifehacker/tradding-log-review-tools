@@ -4,7 +4,7 @@
 }
 .month-wrapper{
   position: relative;
-  border-top:1px solid #777;
+  border-top:1px solid #aaa;
   .month-title{
     height: 50px;
     line-height: 50px;
@@ -13,12 +13,14 @@
     text-align: left;
     padding-left:20px;
     box-sizing:border-box;
-    border-bottom: 1px solid #ccc;
   }
   &.active{
     .days-block{
       display: block;
     }    
+    .month-title{
+      border-bottom: 1px solid #ccc;
+    }
   }
   .days-block{
     display: none;

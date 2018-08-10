@@ -16,7 +16,17 @@
                 <div class="tradding-direction">
                   {{ traddingItem.isBuy ? 'B':'S'}}
                 </div>
-                <i v-on:click="addTraddingDetail(monthF(key),dayF(key,day))" class="icon iconfont icon-plus-circle "></i>
+                <div class="tradding-mistake">
+                  <span v-for="mistakeTypeItem in traddingItem.traddingMentalStatic.mistakeType">
+                    {{mistakeTypeItem}}                    
+                  </span>
+                </div>
+                <div class="tradding-fear"> 
+                  <span v-for="fearTypeItem in traddingItem.traddingMentalStatic.fearType">
+                    {{fearTypeItem}}                    
+                  </span>
+                </div>
+                <i v-on:click="addTraddingDetail(traddingItem._id)" class="icon iconfont icon-plus-circle "></i>
               </div>
             </div>
           </div>
@@ -67,16 +77,16 @@
         </mu-form-item>
         <mu-form-item prop="input" label="恐惧类型">
           <mu-flex class="select-control-row">
-            <mu-checkbox :value="1" v-model="traddingMentalStatic.fearTyep" label="怕犯错"></mu-checkbox>
+            <mu-checkbox :value="1" v-model="traddingMentalStatic.fearType" label="怕犯错"></mu-checkbox>
           </mu-flex>
           <mu-flex class="select-control-row">
-            <mu-checkbox :value="2" v-model="traddingMentalStatic.fearTyep" label="怕亏钱"></mu-checkbox>
+            <mu-checkbox :value="2" v-model="traddingMentalStatic.fearType" label="怕亏钱"></mu-checkbox>
           </mu-flex>
           <mu-flex class="select-control-row">
-            <mu-checkbox :value="3" v-model="traddingMentalStatic.fearTyep" label="怕错过机会"></mu-checkbox>
+            <mu-checkbox :value="3" v-model="traddingMentalStatic.fearType" label="怕错过机会"></mu-checkbox>
           </mu-flex>
           <mu-flex class="select-control-row">
-            <mu-checkbox :value="4" v-model="traddingMentalStatic.fearTyep" label="怕赚不到钱"></mu-checkbox>
+            <mu-checkbox :value="4" v-model="traddingMentalStatic.fearType" label="怕赚不到钱"></mu-checkbox>
           </mu-flex>
         </mu-form-item>
 
@@ -133,8 +143,9 @@ export default {
       },
       //
       traddingMentalStatic:{
+        editingItemId:'',
         mistakeType:[],
-        fearTyep:[],
+        fearType:[],
       }
     }
   },
@@ -143,9 +154,9 @@ export default {
       this.eidtingDayDetail = true;
       let date = this.year+month+day;
     },
-    addTraddingDetail:function(month,day){
+    addTraddingDetail:function(itemId){
       this.eidtingTraddingLogDetail = true;
-      let date = this.year+month+day;
+      this.traddingMentalStatic.editingItemId = itemId;
     },
     closeDayEidter(){
       this.eidtingDayDetail = false;
@@ -154,7 +165,16 @@ export default {
 
     },
     saveTraddingDetail(){
-
+      let id = this.traddingMentalStatic.editingItemId;
+      this.$http.put(`/api/traddingitems/traddingitem/${id}`, {
+          mistakeType: this.traddingMentalStatic.mistakeType,
+          fearType: this.traddingMentalStatic.fearType,
+        })
+        .then(res => {
+          console.log(res);
+          this.toastr.success("更新电影成功!");
+        })
+        .catch(err => console.log(err))
     },
     closeTraddingEidter(){
       this.eidtingTraddingLogDetail = false;
@@ -190,7 +210,7 @@ export default {
                 that.traddingDaysDetail[key].push(that.traddingitems[i]); 
               }
             }
-          }     
+          }   
         })
         .catch(err => {
           this.toastr.error(`${err.message}`, 'ERROR!')

@@ -16,7 +16,7 @@ const traddingItem = mongoose.Schema({
   moneyChange:Number,
   traddingMentalStatic:{
     mistakeType:Array,//-1不提前界定风险,-2不设止损,-3不能系统获利了结,1\2\3正为反面
-    fearTyep:Array//-1怕犯错、-2怕亏钱、-3怕错过机会、-4怕赚不到钱
+    fearType:Array//-1怕犯错、-2怕亏钱、-3怕错过机会、-4怕赚不到钱
   },
   created_at : { type : Date, default : Date.now },
   update_at : { type : Date, default : Date.now }

@@ -10,5 +10,21 @@ router.get('/getall', (req, res) => {
        .catch(err => {
          res.json(err)
        })
-})
+});
+//更新
+router.put('/traddingitem/:id',(req,res) => {
+  TraddingItem.findOneAndUpdate({ _id : req.params.id}
+       ,{ $set : { 
+            traddingMentalStatic: {
+              mistakeType:req.body.mistakeType,
+              fearType: req.body.fearType
+            }
+          }
+         },{
+           new : true
+         })
+       .then(item => res.json(item))
+       .catch(err => res.json(err))
+});
+
 module.exports = router

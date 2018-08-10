@@ -45,6 +45,10 @@ pdfHandler = {
     var s = t[1].split(".");
     return s[0];
   },
+  //当日交易资金变动记录
+
+
+  //交易详情记录
   _traddingDataPraser(htmlFileName,traddigDate){
     //StartNext
     request(host+'static/data/html/'+htmlFileName, function (error, response, body) { 
@@ -76,7 +80,7 @@ pdfHandler = {
           rowData.isNx = true;
           rowData.isCall = true;//做多
 
-          console.log(row[i][1])
+          // console.log(row[i][1])
           if(row[i][1].indexOf("年")>0){
             //过滤初始信息 2018年
             continue;
@@ -96,8 +100,6 @@ pdfHandler = {
             var sname = name;            
             rowData.scode = scode.substr(0,5);
             rowData.sname = sname.slice(5);
-            console.log(rowData.scode)
-            console.log(rowData.sname) 
             if(rowData.sname.indexOf("熊")>0){
               rowData.isCall = false;//做空
             }
@@ -165,7 +167,7 @@ pdfHandler = {
               rowData.moneyChange = util.trim(row[i][21].replace(regPoint,""))
             }
           }
-          if(rowData.moneyChange.indexOf("+")>0){
+          if(rowData.moneyChange.indexOf("+")>=0){
             rowData.isBuy = false;
           }else{
             rowData.isBuy = true;

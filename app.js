@@ -9,6 +9,7 @@ const movie = require('./router/movie')
 const pdf = require('./router/pdf')
 const news = require('./router/news')
 const traddingitems = require('./router/traddingitems')
+const traddingdate = require('./router/traddingdate')
 
 mongoose.connect(config.mongodb)
 mongoose.Promise = global.Promise
@@ -24,6 +25,7 @@ app.use('/',index)
 app.use('/api/movie',movie)
 app.use('/api/pdf',pdf)
 app.use('/api/traddingitems',traddingitems)
+app.use('/api/traddingdate',traddingdate)
 app.use('/api/news',news)
 
 app.listen(port, () => {

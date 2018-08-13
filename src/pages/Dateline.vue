@@ -114,6 +114,7 @@ export default {
   components: {},
   created(){
     this.getTraddingLog();
+    this.getTraddingDate();
   },
   beforeMount(){
     this.monthOfDay = [31,30,31,30,31,31,30,31,30,31,28,31];
@@ -172,8 +173,8 @@ export default {
           fearType: this.traddingMentalStatic.fearType,
         })
         .then(res => {
-          console.log(res);
-          this.toastr.success("更新电影成功!");
+          // console.log(res);
+          this.toastr.success("保存成功!");
         })
         .catch(err => console.log(err))
     },
@@ -197,9 +198,10 @@ export default {
       this.$http.get('/api/traddingdate/getall')
         .then(res => {
           let result =  res.data;
-          for(let i=0;i < result.length;i++){
-            that.traddingDate[result[i].dayDate] = result[i];
-          }
+          console.log(result) 
+          // for(let i=0;i < result.length;i++){
+          //   that.traddingDate[result[i].dayDate] = result[i];
+          // }
         })
         .catch(err => {
           this.toastr.error(`${err.message}`, 'ERROR!')
@@ -218,7 +220,6 @@ export default {
             that.activeDaysMark[that.traddingitems[i].date] = true;
             that.activeMonthMark[that.traddingitems[i].date.substr(0,6)] = true;
           }
-          console.log(that.activeDaysMark)
           for (let key in that.activeDaysMark) {  
             that.traddingDaysDetail[key] = [];
             for(let i=0;i<that.traddingitems.length;i++){

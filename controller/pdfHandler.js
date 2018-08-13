@@ -7,7 +7,8 @@ const _config = require('../_config/private');
 const fs = require('fs');
 const request = require('request');
 const util = require('../util/util');
-const TraddingItem = require('../models/traddingItem')
+const TraddingItem = require('../models/traddingItem');
+const TraddingDate = require('../models/traddingDate');
 
 pdfHandler = {
   runUpdateData(){
@@ -30,6 +31,7 @@ pdfHandler = {
                 console.log('Signal received: ' + err.signal);
             }else{
               _self._traddingDataCheck(file+'.html');
+              _self._traddingDayMoneyCheck(file+'.html');
             }
             console.log('data : ' + stdout);
           }).on('exit', function (code) {
@@ -46,11 +48,56 @@ pdfHandler = {
     return s[0];
   },
   //当日交易资金变动记录
+  _moneyPraser(htmlFileName,traddigDate){
+    request(host+'static/data/html/'+htmlFileName, function (error, response, body) { 
+      if (!error && response.statusCode == 200) { 
+        var $ = cheerio.load( body ,{decodeEntities: false});
+        var regPoint = new RegExp( ',' , "g" );
+        var praser = $("body").html().toString();
+        var a = praser.split("<br>");
+        var rusult = [];
+        var dayMoneyData = {};
+        dayMoneyData.dayDate = traddigDate;
+        for(var i=0;i < a.length; i++){
+          var row = util.trim(a[i].replace(regPoint,""));
+          if(row.indexOf("盤前證券市值")!=-1){
+            //盤前證券市值
+            dayMoneyData.startMarketValue = parseFloat(util.trim(a[i+1].replace(regPoint,"")));
+            //盤前現金結餘
+            dayMoneyData.startCash = parseFloat(util.trim(a[i+3].replace(regPoint,"")));
+            //盤前資產淨值
+            dayMoneyData.startNetAssets = parseFloat(util.trim(a[i+5].replace(regPoint,"")));
+          }
+          if(row.indexOf("盤後證券市值")!=-1){
+            //盤後證券市值
+            dayMoneyData.endMarketValue = parseFloat(util.trim(a[i+1].replace(regPoint,"")));
+            //盤後現金結餘
+            dayMoneyData.endCash = parseFloat(util.trim(a[i+3].replace(regPoint,"")));
+            //盤後資產淨值
+            dayMoneyData.endNetAssets = parseFloat(util.trim(a[i+5].replace(regPoint,"")));
+          }
+        }
+        let traddingMoneyData = new TraddingDate(dayMoneyData)
+        traddingMoneyData.save( (err,item) => {
+          if (err) {
+            console.log("=========AAAAA========");
+            console.log(dayMoneyData);
+            console.log("=========BBBBB========");
+            console.log("Row Data Save Error"+err);
+            console.log("=================");
+          } else {
+            console.log(dayMoneyData)
+            console.log('traddigMoneyDate saved');
+          }
+        })
+      }else{
 
+      }
+    });
+  },
 
   //交易详情记录
   _traddingDataPraser(htmlFileName,traddigDate){
-    //StartNext
     request(host+'static/data/html/'+htmlFileName, function (error, response, body) { 
       if (!error && response.statusCode == 200) { 
         var $ = cheerio.load( body ,{decodeEntities: false});
@@ -194,6 +241,19 @@ pdfHandler = {
         console.log(error)
       }
     });
+  },
+  _traddingDayMoneyCheck(htmlFileName){
+    var _self = this;
+    var traddigDate = this._getTraddingDate(htmlFileName);
+    TraddingDate.find({date:traddigDate})
+       .then(items => {
+          if(items.length == 0){
+            _self._moneyPraser(htmlFileName,traddigDate);
+          }
+       })
+       .catch(err => {
+          console.log("TraddingDateDayMoneyFinderError");
+       });
   },
   _traddingDataCheck(htmlFileName){
     var _self = this;

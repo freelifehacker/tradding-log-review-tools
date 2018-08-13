@@ -1,11 +1,11 @@
 <template lang="html">
   <div class="list">
-    <div class="item" v-for="item of contents">
-      <div class="row" v-for="(c,key) of item">
+    <!--<div class="item" v-for="item of contents">-->
+      <div class="row" v-for="(c,key) of contents">
         <div>INDEX-{{key}}:::{{c}}</div>
       </div>
       <div class="breaker">===========================================</div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 

@@ -135,6 +135,7 @@ export default {
       traddingDaysDetail:null,
       eidtingDayDetail:false,
       eidtingTraddingLogDetail:false,
+      traddingDate:null,
       //
       dayStatic:{
         morningDesc:'',
@@ -189,6 +190,21 @@ export default {
     },
     getTraddingItemByDay(month,day){
       return this.traddingDaysDetail[this.year+month+day];
+    },
+    //Start From here
+    getTraddingDate(){
+      var that = this;
+      this.$http.get('/api/traddingdate/getall')
+        .then(res => {
+          let result =  res.data;
+          for(let i=0;i < result.length;i++){
+            that.traddingDate[result[i].dayDate] = result[i];
+          }
+        })
+        .catch(err => {
+          this.toastr.error(`${err.message}`, 'ERROR!')
+          console.log(err)
+        })
     },
     getTraddingLog() {
       var that = this;

@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <mu-appbar :title="title" class="title" style="width: 100%;" color="primary" :zDepth="zDepth">
+<!--     <mu-appbar :title="title" class="title" style="width: 100%;" color="primary" :zDepth="zDepth">
       <mu-tabs :value.sync="active">
         <mu-tab>TAB ITEM 1</mu-tab>
         <mu-tab>TAB ITEM 2</mu-tab>
         <mu-tab>TAB ITEM 3</mu-tab>
       </mu-tabs>
-    </mu-appbar>
+    </mu-appbar> -->
     
     <router-view></router-view>
   </div>
 </template>
-
 <script>
+import Vue from 'vue'
+import ECharts from 'vue-echarts/components/ECharts'
+Vue.component('v-chart', ECharts)
 export default {
   name: 'app',
   data(){

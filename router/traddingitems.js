@@ -11,6 +11,15 @@ router.get('/getall', (req, res) => {
          res.json(err)
        })
 });
+router.get('/get/:date',(req, res) => {
+  TraddingItem.find({date:req.params.date})
+    .then(traddingDayDetail => {
+      res.json(traddingDayDetail)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+});
 //更新
 router.put('/traddingitem/:id',(req,res) => {
   TraddingItem.findOneAndUpdate({ _id : req.params.id}

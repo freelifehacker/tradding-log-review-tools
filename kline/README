@@ -1,0 +1,5 @@
+#install
+pip install flask-moment
+
+# run 
+FLASK_APP=flask_server.py FLASK_DEBUG=1 python -m flask run

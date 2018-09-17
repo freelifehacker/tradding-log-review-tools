@@ -1,10 +1,68 @@
-
+.title-fixed{
+  height: 40px;
+  background:#000;
+  color:#fff;
+  position:sticky;
+  width: 100%;
+  top:0;
+  z-index: 99999;
+  text-align: left;
+  padding-left: 100px;
+  .fold-all{
+    height: 40px;
+    line-height: 40px;
+    font-size: 12px;
+    text-align: center;
+    width: 100px;
+    position: absolute;
+    left: 0;
+  }
+}
+.year-sum{
+  background:#000;
+  height: 40px;
+  position: fixed;
+  bottom:0;
+  width: 100%;
+  padding-left: 426px;
+  text-align: left;
+  z-index: 99999;
+  .year-ab{
+    color:#ccc;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+}
+.title-fixed{
+  span{
+    text-align: left;
+    font-size: 14px;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    &.start,&.end,&.ab{
+      width:118px;
+    }
+    &.rate{
+      width: 70px;
+    }
+    &.ab{
+      width: 120px;
+    }
+  }
+}
 .dateline-wrapper{
   width: 100%;
 }
 .month-wrapper{
   position: relative;
   border-top:1px solid #aaa;
+  display: none;
+  &.has-data{
+    display: block;
+  }
   .month-title{
     height: 50px;
     line-height: 50px;
@@ -13,6 +71,10 @@
     text-align: left;
     padding-left:20px;
     box-sizing:border-box;
+    overflow: hidden;
+    .month{
+      float: left;
+    }
   }
   &.active{
     .days-block{
@@ -28,12 +90,23 @@
   }
   .days-wrapper{
     padding:5px 0;
+    display: none;
+    &.has-data{
+      display: block;
+    }
+    &.active{
+      .day-detail{
+        display: block;
+      }
+    }
   }
   .day-row{
     position: relative;
+    overflow: hidden;
     height: 40px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+
     &:hover{
       background: #eee;
       .icon-plus-circle{
@@ -51,9 +124,33 @@
     }
 
   }
-
+  .day-assets,.month-assets{
+    float: left;
+    display: block;
+    height: 40px;
+  }
+  .month-assets{
+    margin-left: 34px;
+  }
+  .day-assets,.month-assets{
+    span{
+      text-align: left;
+      font-size: 14px;
+      display: inline-block;
+      height: 40px;
+      line-height: 40px;
+      padding:0 12px;
+      &.start,&.end,&.ab{
+        width:120px;
+      }
+      &.rate{
+        width: 80px;
+      }
+    }
+  }
   .day{
     display: block;
+    float: left;
     line-height: 40px;
     width: 40px;
     height: 40px;
@@ -67,13 +164,16 @@
       border:1px solid #000;
     }
     &.is-up{
-
+      color:#fff;
+      background:red;
     }
     &.is-down{
-
+      color:#fff;
+      background:green;
     }
   }
   .day-detail{
+    display: none;
     padding-left: 50px;
     text-align: left;
     .tradding-row{

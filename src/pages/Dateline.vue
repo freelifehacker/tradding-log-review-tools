@@ -1,14 +1,35 @@
 <template lang="html">
   <div class="dateline-wrapper">
+    <div class="current-goal" v-if="activeMonthMark">
+      <span class="t">本月目标20%</span>
+      <span class="ab">目标盈利{{(activeMonthMark['201809'].startNetAssets*0.2).toLocaleString('en-US')}}</span>
+      <span class="completed-rate">{{((activeMonthMark['201809'].endNetAssets-activeMonthMark['201809'].startNetAssets)/(activeMonthMark['201809'].startNetAssets*0.2)*100).toFixed(2)}}%</span>
+      <span class="completed-ab">完成{{(activeMonthMark['201809'].endNetAssets - activeMonthMark['201809'].startNetAssets).toLocaleString('en-US')}}</span>
+      <span class="rest">{{(activeMonthMark['201809'].startNetAssets*1.2-activeMonthMark['201809'].endNetAssets).toLocaleString('en-US')}}</span>
+    </div>
+    <div class="title-fixed">
+      <div class="fold-all" @click="flodAllMonth()">收起</div>
+      <span class="start">开盘</span>
+      <span class="end">收市</span>
+      <span class="rate">盈亏比</span>
+      <span class="ab">盈亏净值</span>
+    </div>
+    <div class="year-sum">
+      <span class="year-ab" v-if="yearAB">{{yearAB}}</span>
+    </div>
     <div v-if="activeDaysMark" class="month-block" v-for="(days,key) in monthOfDay">
-      <div class="month-wrapper" v-bind:class="{ 'active': isActiveMonth(monthF(key))}">
-        <div class="month-title">{{monthF(key)}}</div>
+      <div class="month-wrapper" v-bind:class="{ 'active': isActiveMonth(monthF(key)),'has-data':hasMonthData(monthF(key))}" :ref="'month'+monthF(key)">
+        <div class="month-title" @click="switchMonth(monthF(key))">
+          <span class="month">{{monthF(key)}}</span>
+          <div class="month-assets" v-html="getMonthAssetDate(monthF(key))">{{getMonthAssetDate(monthF(key))}}</div>
+        </div>
         <div class="days-block">    
-          <div class="days-wrapper" v-for="day in days">
-            <div class="day-row">
+          <div class="days-wrapper"  v-for="day in days" :ref="'day-'+monthF(key)+dayF(key,day)" v-bind:class="{ 'has-data': isActiveDay(monthF(key),dayF(key,day))}">
+            <div class="day-row" @click="switchDay(monthF(key)+dayF(key,day))" >
               <span class="day" v-bind:class="{ 'active': isActiveDay(monthF(key),dayF(key,day)),'is-up':isUp(monthF(key),dayF(key,day)),'is-down':isDown(monthF(key),dayF(key,day))}">
                 {{dayF(key,day)}}
               </span>
+              <div class="day-assets" v-html="getDayAssetDate(monthF(key),dayF(key,day))">{{getDayAssetDate(monthF(key),dayF(key,day))}}</div>
               <i v-on:click="addDayDetail(monthF(key),dayF(key,day))" class="icon iconfont icon-plus-circle"></i>
             </div>
             <div class="day-detail" v-if="isActiveDay(monthF(key),dayF(key,day))">
@@ -114,7 +135,7 @@ export default {
   components: {},
   created(){
     this.getTraddingLog();
-    this.getTraddingDate();
+    // this.getTraddingDate();
   },
   beforeMount(){
     this.monthOfDay = [31,30,31,30,31,31,30,31,30,31,28,31];
@@ -129,6 +150,7 @@ export default {
   data() {
     return {
       year:2018,
+      yearAB:0,
       monthOfDay:[],
       traddingitems:[],
       activeMonthMark:null,
@@ -152,6 +174,29 @@ export default {
     }
   },
   methods: {
+    switchMonth:function(m){
+      let className = this.$refs['month'+m][0].className;
+      if(className.indexOf("active")<0){
+        this.$refs['month'+m][0].className = "month-wrapper has-data active";
+      }else{
+        this.$refs['month'+m][0].className = "month-wrapper has-data";
+      }
+    },
+    switchDay:function(d){
+      console.log(d)
+      let className = this.$refs['day-'+d][0].className;
+      if(className.indexOf("active")<0){
+        this.$refs['day-'+d][0].className = "days-wrapper active";
+      }else{
+        this.$refs['day-'+d][0].className = "days-wrapper";
+      }
+    },
+    flodAllMonth:function(){
+      let m = document.querySelectorAll(".month-wrapper");
+      for(let i=0;i<m.length;i++){
+        m[i].className = "month-wrapper has-data";
+      }
+    },
     addDayDetail:function(month,day){
       this.eidtingDayDetail = true;
       let date = this.year+month+day;
@@ -195,30 +240,29 @@ export default {
     //Start From here
     getTraddingDate(){
       var that = this;
-      this.$http.get('/api/traddingdate/getall')
+      return this.$http.get('/api/traddingdate/getall')
         .then(res => {
           let result =  res.data;
-          console.log(result) 
-          // for(let i=0;i < result.length;i++){
-          //   that.traddingDate[result[i].dayDate] = result[i];
-          // }
+          return result;
         })
         .catch(err => {
           this.toastr.error(`${err.message}`, 'ERROR!')
           console.log(err)
         })
     },
-    getTraddingLog() {
+    getTraddingLog:async function() {
       var that = this;
+      const r = await that.getTraddingDate(); 
+      const dayProfit = r.result;
+      that.activeMonthMark = r.monthStatic;
+      that.yearAB = r.yearAB.toLocaleString('en-US');
       this.$http.get('/api/traddingitems/getall')
         .then(res => {
           that.traddingitems = res.data;
           that.activeDaysMark = {};
-          that.activeMonthMark = {};
           that.traddingDaysDetail = {};
           for(let i=0;i<that.traddingitems.length;i++){
-            that.activeDaysMark[that.traddingitems[i].date] = true;
-            that.activeMonthMark[that.traddingitems[i].date.substr(0,6)] = true;
+            that.activeDaysMark[that.traddingitems[i].date] = dayProfit[that.traddingitems[i].date];
           }
           for (let key in that.activeDaysMark) {  
             that.traddingDaysDetail[key] = [];
@@ -234,17 +278,47 @@ export default {
           console.log(err)
         })
     },
+    hasMonthData(month){
+      return this.activeMonthMark['2018'+month].hasData ? true:false;
+    },
+    hasDayData(month,day){
+
+    },
     isActiveMonth(month){
-      return this.activeMonthMark['2018'+month];
+      return false
+      // return this.activeMonthMark['2018'+month].hasData ? true:false;
     },
     isActiveDay(month,day){
       return this.activeDaysMark['2018'+month+day];
     },
     isUp(month,day){
-
+      return this.activeDaysMark['2018'+month+day] ? this.activeDaysMark['2018'+month+day].isProfit : false;
     },
     isDown(month,day){
-
+      return this.activeDaysMark['2018'+month+day] ? !this.activeDaysMark['2018'+month+day].isProfit : false;
+    },
+    getMonthAssetDate(month){
+      if(this.activeMonthMark['2018'+month]){
+        let d = this.activeMonthMark['2018'+month];
+        let str = d.startNetAssets ? '<span class="start">'+d.startNetAssets.toLocaleString('en-US')+'</span>':'';
+        str = str + (d.endNetAssets ? '<span class="end">'+d.endNetAssets.toLocaleString('en-US')+'</span>':'');
+        str = str+ (d.rateProfit ? '<span class="rate">'+d.rateProfit+'%</span>':'');
+        str = str+ (d.profitAB ? '<span class="ab">'+d.profitAB.toLocaleString('en-US')+'</span>':'');
+        return str;
+      }else{
+        return "";
+      }
+    },
+    getDayAssetDate(month,day){
+      if(this.activeDaysMark['2018'+month+day]){
+        let d = this.activeDaysMark['2018'+month+day];
+        let str = '<span class="start">'+d.startNetAssets+'</span>';
+        str = str+'<span class="end">'+d.endNetAssets+'</span>';
+        str = str+'<span class="rate">'+d.rateProfit+'%</span>';
+        return str;
+      }else{
+        return "";
+      }
     },
   }
 }

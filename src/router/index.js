@@ -4,6 +4,8 @@ import List from 'components/List'
 import Detail from 'components/Detail'
 import Pdf from 'components/Pdf'
 import Dateline from 'pages/Dateline'
+import Kline from 'pages/Kline'
+import KlineMin1 from 'pages/KlineMin1'
 
 Vue.use(Router)
 
@@ -25,6 +27,14 @@ export default new Router({
       path : '/dateline',
       name : 'dateline',
       component : Dateline
+    },{
+      path : '/kline',
+      name : 'kline',
+      component : Kline
+    },{
+      path : '/klinemin1/:code/:date',
+      name : 'klinemin1',
+      component : KlineMin1
     },{
       path: '*',
       redirect : '/'

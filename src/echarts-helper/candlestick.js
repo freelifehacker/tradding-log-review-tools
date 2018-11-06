@@ -1,5 +1,5 @@
 const kline = require('../lib/util.js').kline;
-
+const _ = require('underscore');
 const colorConfig = {
   normal: {
     color: '#ec0000',
@@ -14,6 +14,83 @@ const colorConfig = {
     borderColor0: '#aaa',
   }
 };
+
+const sortTradIndex = {
+  WMSR:function(n,values){
+    // console.log(values)
+    let WR = [];
+    let valueMoc = _.clone(values);
+    for(let i =0;i < values.length;i++){
+      let gapData = _.last(valueMoc,n);
+      if(gapData.length == n){
+        let gapDataHigh = [];
+        let gapDataLow = [];
+        for(let j=0;j<n;j++){
+          gapDataHigh[j] = gapData[j][2];
+          gapDataLow[j] = gapData[j][3];
+        }
+        WR[values.length-i] = ((_.max(gapDataHigh)-gapData[n-1][1])/(_.max(gapDataHigh)-_.min(gapDataLow))*100).toFixed(3);        
+      }
+      valueMoc.pop();
+    }
+    return WR;
+  },
+  RSI:function(n,values){
+    let n_p1 = n+1;
+    let RSI = [1,2,3];
+    let valueMoc = _.clone(values);
+
+    let SMMA1 = function(sum,n){
+      return sum/n;
+    }
+    let SMMA = function(sum,n,all,i){
+      return (sum-SMMA1(sum,n)+all[i])/n;
+    };
+    // for(let i =0;i < values.length;i++){
+      let gapData = _.last(valueMoc,n_p1);
+      if(gapData.length == n_p1){
+        let upSum = 0;
+        let downSum = 0;
+        let upAll = [];
+        let downAll = [];
+        for(let j=(n);j>=1;j--){
+          dayChange = Math.round(gapData[j][1])-Math.round(gapData[j-1][1]);
+          console.log(dayChange)
+          if(dayChange>=0){
+            upSum += dayChange;
+            upAll.push(dayChange);
+          }else{
+            downSum += -dayChange
+            downAll.push(-dayChange);
+          }
+        }
+        if(upAll.length>0){
+          var sumUPSMMA = 0;
+          for(let j=0;j<upAll.length;j++){
+            sumUPSMMA += SMMA(upSum,n,upAll,j);
+          }
+        }
+        if(downAll.length>0){
+          var sumDOWNSMMA = 0;
+          for(let j=0;j<downAll.length;j++){
+            sumDOWNSMMA += SMMA(downSum,n,downAll,j);
+          }
+        }
+
+        let rs = parseFloat(upSum/downSum).toFixed(3)*100;
+        console.log(rs);
+        // let rsi = 100-100/(1+rs);
+        // console.log(rsi)
+        // RSI[values.length-i] = 100 - (100/(1+rs));
+      }
+      // 60.542
+      // valueMoc.pop();
+    // }
+    // console.log(RSI)
+    return RSI;
+  }
+}
+
 module.exports =  {
   candlestickHelper:{
     getSeries:function(data){
@@ -128,10 +205,32 @@ module.exports =  {
         yAxisIndex: 1,
         data: data.volumns
       })
+      //WMSR
+      series.push({
+        name: 'WMSR1',
+        type: 'line',
+        xAxisIndex: 2,
+        yAxisIndex: 2, 
+        data: sortTradIndex.WMSR(6,data.values)
+      })
+      series.push({
+        name: 'WMSR2',
+        type: 'line',
+        xAxisIndex: 2,
+        yAxisIndex: 2, 
+        data: sortTradIndex.WMSR(13,data.values)
+      });
+      //RSI
+      series.push({
+        name: 'RSI1',
+        type: 'line',
+        xAxisIndex: 3,
+        yAxisIndex: 3, 
+        data: sortTradIndex.RSI(6,data.values)
+      });
       return series;
     },
     getMin1Series:function(data,traddingData){
-      console.log(data)
       let series = [];
       let traddingMarkPoint = []
       if(traddingData && traddingData.length>0){
@@ -166,7 +265,20 @@ module.exports =  {
           data:traddingMarkPoint,
         },
       })
-    
+      series.push({
+        name: 'Volumn',
+        type: 'bar',
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        data: data.volumns
+      })
+      series.push({
+        name: 'XXX',
+        type: 'line',
+        xAxisIndex: 2,
+        yAxisIndex: 2, 
+        data: sortTradIndex.WMSR(6,data.values)
+      })
       return series;
     },
 

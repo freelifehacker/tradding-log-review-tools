@@ -107,20 +107,27 @@ export default {
         },
         grid: [
           {
-            left: '10%',
+            left: '10 %',
             right: '8%',
-            height: '50%'
+            height: '40%'
           },
           {
             left: '10%',
             right: '8%',
-            bottom: '20%',
+            bottom: '35%',
+            height: '15%'
+          },
+          {
+            left: '10%',
+            right: '8%',
+            bottom: '15%',
             height: '15%'
           }
         ],
         xAxis: [
           {
             type: 'category',
+            gridIndex:0,
             data: this.data.xData,
             scale: true,
             boundaryGap : false,
@@ -129,9 +136,9 @@ export default {
             splitNumber: 20,
             min: 'dataMin',
             max: 'dataMax',
-            // axisPointer: {
-            //   z: 100
-            // }
+            axisPointer: {
+              z: 100
+            }
           },
           {
             type: 'category',
@@ -145,42 +152,33 @@ export default {
             axisLabel: {show: false},
             splitNumber: 20,
             min: 'dataMin',
-            max: 'dataMax',
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  var seriesValue = (params.seriesData[0] || {}).value;
-                  return params.value
-                  // + (seriesValue != null
-                  //   ? '\n' + ECharts.format.addCommas(seriesValue)
-                  //   : ''
-                  // );
-                }
-              }
-            }
-          }
+            max: 'dataMax'
+          },
+          {
+            type: 'category',
+            gridIndex: 2,
+            data: this.data.xData,
+            scale: true,
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            axisTick: {show: false},
+            splitLine: {show: false},
+            axisLabel: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax'
+          },
         ],
-        // xAxis: {
-        //   type: 'category',
-        //   data: this.data.xData,
-        //   axisLine: { lineStyle: { color: '#8392A5' } },
-        //   scale: true,
-        //   boundaryGap : false,
-        //   // axisLine: {onZero: false},
-        //   splitLine: {show: false},
-        //   splitNumber: 20,
-        //   min: 'dataMin',
-        //   max: 'dataMax'
-        // },
-
         yAxis: [
           {
             scale: true,
+            gridIndex: 0,
             splitArea: {
               show: true
             }
           },
           {
+            type:'value',
             scale: true,
             gridIndex: 1,
             splitNumber: 2,
@@ -188,28 +186,18 @@ export default {
             axisLine: {show: false},
             axisTick: {show: false},
             splitLine: {show: false}
+          },
+          {
+            type:'value',
+            scale: true,
+            gridIndex: 2,
+            splitNumber: 2,
+            axisLabel: {show: false},
+            axisLine: {show: false},
+            axisTick: {show: false},
+            splitLine: {show: false}
           }
         ],
-
-        // yAxis: {
-        //   scale: true,
-        //   axisLine: { lineStyle: { color: '#8392A5' } },
-        //   splitLine: { show: false }
-        // },
-        // dataZoom: [
-        //   {
-        //     type: 'inside',
-        //     start: 50,
-        //     end: 100
-        //   },
-        //   {
-        //     show: true,
-        //     type: 'slider',
-        //     y: '90%',
-        //     start: 50,
-        //     end: 100
-        //   }
-        // ],
         dataZoom: [
           {
             type: 'inside',
@@ -244,7 +232,6 @@ export default {
     getTraddingData:function(day){
       return this.$http.get('/api/traddingitems/get/'+moment(day).format('YYYYMMDD'))
         .then(res => {
-          console.log("===========")
           return res.data;
         }).catch(err => {
           this.toastr.error(`${err.message}`, 'ERROR!')

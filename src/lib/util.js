@@ -28,7 +28,7 @@ module.exports =  {
         return [+item[1].toFixed(1), +item[2].toFixed(1), +item[3].toFixed(1), +item[4].toFixed(1)];
       });
       let volumns = d.map(function (item) {
-        return item[7];
+        return item[8];
       });
       //波动区间
       let volatilityGap = d.map(function (item) {

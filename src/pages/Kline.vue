@@ -87,7 +87,39 @@ export default {
               obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
               return obj;
           },
-          extraCssText: 'width: 170px'
+          extraCssText: 'width: 170px',
+          formatter: function (param) {
+            let text = [];
+            let day,WMSR1,WMSR2,RSI1;
+            for(let i=0;i<param.length;i++){
+              if(param[i].seriesName == '日K'){
+                day = param[i];
+              }
+              if(param[i].seriesName == 'WMSR1'){
+                WMSR1 = param[i];
+              }
+              if(param[i].seriesName == 'WMSR2'){
+                WMSR2 = param[i];
+              }
+              if(param[i].seriesName == 'RSI1'){
+                RSI1 = param[i];
+              }
+            }
+            
+            text.push(day.seriesName + '<hr size=1 style="margin: 3px 0">');
+            text.push('开盘: ' + day.data[1] + '<br/>');
+            text.push('收盘: ' + day.data[2] + '<br/>');
+            text.push('最高: ' + day.data[3] + '<br/>');
+            text.push('最低: ' + day.data[4] + '<br/>');
+            text.push('WMSR' + '<hr size=1 style="margin: 3px 0">');
+            text.push('WMSR1: ' + WMSR1.data + '<br/>');
+            text.push('WMSR2: ' + WMSR2.data + '<br/>');
+            text.push('RSI' + '<hr size=1 style="margin: 3px 0">');
+            if(RSI1 && RSI1.data){
+              text.push('RSI1: ' + RSI1.data + '<br/>');
+            }
+            return text.join('');
+          }
         },
         axisPointer: {
           link: {xAxisIndex: 'all'},
@@ -116,13 +148,25 @@ export default {
           {
             left: '10%',
             right: '8%',
-            height: '50%'
+            height: '30%'
           },
           {
             left: '10%',
             right: '8%',
-            bottom: '20%',
+            bottom: '45%',
             height: '15%'
+          },
+          {
+            left: '10%',
+            right: '8%',
+            bottom: '34%',
+            height: '10%'
+          },
+          {
+            left: '10%',
+            right: '8%',
+            bottom: '23%',
+            height: '10%'
           }
         ],
         xAxis: [
@@ -136,9 +180,9 @@ export default {
             splitNumber: 20,
             min: 'dataMin',
             max: 'dataMax',
-            // axisPointer: {
-            //   z: 100
-            // }
+            axisPointer: {
+              z: 100
+            }
           },
           {
             type: 'category',
@@ -153,36 +197,40 @@ export default {
             splitNumber: 20,
             min: 'dataMin',
             max: 'dataMax',
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  var seriesValue = (params.seriesData[0] || {}).value;
-                  return params.value
-                  // + (seriesValue != null
-                  //   ? '\n' + ECharts.format.addCommas(seriesValue)
-                  //   : ''
-                  // );
-                }
-              }
-            }
+          },
+          {
+            type: 'category',
+            gridIndex: 2,
+            data: this.data.xData,
+            scale: true,
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            axisTick: {show: false},
+            splitLine: {show: false},
+            axisLabel: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax',
+          },
+          {
+            type: 'category',
+            gridIndex: 3,
+            data: this.data.xData,
+            scale: true,
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            axisTick: {show: false},
+            splitLine: {show: false},
+            axisLabel: {show: false},
+            splitNumber: 20,
+            min: 'dataMin',
+            max: 'dataMax',
           }
         ],
-        // xAxis: {
-        //   type: 'category',
-        //   data: this.data.xData,
-        //   axisLine: { lineStyle: { color: '#8392A5' } },
-        //   scale: true,
-        //   boundaryGap : false,
-        //   // axisLine: {onZero: false},
-        //   splitLine: {show: false},
-        //   splitNumber: 20,
-        //   min: 'dataMin',
-        //   max: 'dataMax'
-        // },
-
         yAxis: [
           {
             scale: true,
+            gridIndex: 0,
             splitArea: {
               show: true
             }
@@ -195,28 +243,26 @@ export default {
             axisLine: {show: false},
             axisTick: {show: false},
             splitLine: {show: false}
+          },
+          {
+            scale: true,
+            gridIndex: 2,
+            splitNumber: 2,
+            axisLabel: {show: false},
+            axisLine: {show: false},
+            axisTick: {show: false},
+            splitLine: {show: false}
+          },
+          {
+            scale: true,
+            gridIndex: 3,
+            splitNumber: 2,
+            axisLabel: {show: false},
+            axisLine: {show: false},
+            axisTick: {show: false},
+            splitLine: {show: false}
           }
         ],
-
-        // yAxis: {
-        //   scale: true,
-        //   axisLine: { lineStyle: { color: '#8392A5' } },
-        //   splitLine: { show: false }
-        // },
-        // dataZoom: [
-        //   {
-        //     type: 'inside',
-        //     start: 50,
-        //     end: 100
-        //   },
-        //   {
-        //     show: true,
-        //     type: 'slider',
-        //     y: '90%',
-        //     start: 50,
-        //     end: 100
-        //   }
-        // ],
         dataZoom: [
           {
             type: 'inside',

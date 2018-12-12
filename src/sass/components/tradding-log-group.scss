@@ -1,0 +1,32 @@
+.tradding-log-group{
+	display:flex;
+	height: 50px;
+	border-top: 1px solid #aaa;
+	padding:0 0 0 50px;
+	cursor: pointer;
+	div{
+		height: 50px;
+		line-height: 50px;
+		i{
+			vertical-align: middle;
+		}
+	}
+	.row-col{
+		text-align: left;
+		width: 100px;
+	}	
+	.t-date{
+		width: 180px;
+	}
+	.t-t{
+		width: 50px;
+	}
+	.delete{
+		display: none;
+	}
+	&:hover{
+		.delete{
+			display: block;
+		}
+	}
+}

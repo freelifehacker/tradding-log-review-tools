@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "black-scholes": "^1.1.0",
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "jquery": "^3.1.1",
@@ -51,6 +52,7 @@
     "function-bind": "^1.1.0",
     "html-webpack-plugin": "^2.28.0",
     "http-proxy-middleware": "^0.17.3",
+    "node-hot-loader": "^1.12.2",
     "node-sass": "^4.9.2",
     "nodemon": "^1.11.0",
     "opn": "^4.0.2",

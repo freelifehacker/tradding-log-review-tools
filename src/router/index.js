@@ -6,6 +6,12 @@ import Pdf from 'components/Pdf'
 import Dateline from 'pages/Dateline'
 import Kline from 'pages/Kline'
 import KlineMin1 from 'pages/KlineMin1'
+import Strategy from 'pages/Strategy'
+import Handmake from 'pages/Handmake'
+import Traddinglog from 'pages/Traddinglog'
+import TraddingLogDetail from 'pages/TraddingLogDetail'
+
+import Options from 'pages/Options'
 
 Vue.use(Router)
 
@@ -15,6 +21,10 @@ export default new Router({
       path: '/',
       name: 'List',
       component: List
+    },{
+      path: '/strategy',
+      name: 'Strategy',
+      component: Strategy
     },{
       path : '/movie/:title',
       name : 'detail',
@@ -32,10 +42,26 @@ export default new Router({
       name : 'kline',
       component : Kline
     },{
+      path : '/handmake',
+      name : 'handmake',
+      component : Handmake
+    },{  
+      path : '/traddinglog',
+      name : 'traddinglog',
+      component : Traddinglog
+    },{  
       path : '/klinemin1/:code/:date',
       name : 'klinemin1',
       component : KlineMin1
     },{
+      path : '/tadding-log-detail/:id',
+      name : 'taddinglogdetail',
+      component : TraddingLogDetail
+    },{
+      path : '/options',
+      name : 'options',
+      component : Options
+    },{  
       path: '*',
       redirect : '/'
     }

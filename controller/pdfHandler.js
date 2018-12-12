@@ -24,7 +24,7 @@ pdfHandler = {
         var curPdfFilePath = pdfPath + "/" + file;
         var htmlCheck = htmlPath + "/" + file+'.html';
         if( !fs.existsSync(htmlCheck) ) {
-          exec('pdftohtml -opw '+_config.pdf_password+' -p -noframes '+curPdfFilePath+' '+htmlCheck, {encoding: 'utf-8'}, function(err, stdout, stderr) {
+          exec('pdftohtml -opw '+_config.pdf_password+' -p -noframes -enc UTF-8 '+curPdfFilePath+' '+htmlCheck, function(err, stdout, stderr) {
             if (err) {
                 console.log(err.stack);
                 console.log('Error code: ' + err.code);
@@ -66,7 +66,7 @@ pdfHandler = {
             //盤前現金結餘
             dayMoneyData.startCash = parseFloat(util.trim(a[i+3].replace(regPoint,"")));
             //盤前資產淨值
-            dayMoneyData.startNetAssets = parseFloat(util.trim(a[i+5].replace(regPoint,"")));
+            dayMoneyData.startNetAssets = dayMoneyData.startMarketValue+dayMoneyData.startCash;
           }
           if(row.indexOf("盤後證券市值")!=-1){
             //盤後證券市值
@@ -74,7 +74,7 @@ pdfHandler = {
             //盤後現金結餘
             dayMoneyData.endCash = parseFloat(util.trim(a[i+3].replace(regPoint,"")));
             //盤後資產淨值
-            dayMoneyData.endNetAssets = parseFloat(util.trim(a[i+5].replace(regPoint,"")));
+            dayMoneyData.endNetAssets = dayMoneyData.endMarketValue+dayMoneyData.endCash;
           }
         }
         let traddingMoneyData = new TraddingDate(dayMoneyData)
@@ -86,8 +86,7 @@ pdfHandler = {
             console.log("Row Data Save Error"+err);
             console.log("=================");
           } else {
-            console.log(dayMoneyData)
-            console.log('traddigMoneyDate saved');
+            console.log(htmlFileName+'traddigMoneyDate saved');
           }
         })
       }else{

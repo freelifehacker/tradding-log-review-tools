@@ -1,0 +1,30 @@
+要素
+
+时间框架
+
+趋势识别
+
+人工标示区间趋势
+	牛市 N
+	熊市 X
+	牛次回调 NB
+	熊次回调 XB
+	短期下跌 SD
+	短期上涨 SU
+
+		交互 Symbol 选择日期区间 标示趋势
+
+Order 模拟 
+	OrderType{
+		BUY_TO_OPEN : 1
+		SELL_TO_CLOSE : -1
+		SELL_TO_OPEN : 2
+		BUY_TO_CLOSE : -2
+	}
+	MoneyScale 资金规模
+	Color
+
+
+BackTesting 回测
+	最优F 
+	凯利公式

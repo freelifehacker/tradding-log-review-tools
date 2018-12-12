@@ -10,7 +10,8 @@ const pdf = require('./router/pdf')
 const news = require('./router/news')
 const traddingitems = require('./router/traddingitems')
 const traddingdate = require('./router/traddingdate')
-
+const strategy = require('./router/strategy')
+const traddinggroup = require('./router/traddinggroup')
 mongoose.connect(config.mongodb)
 mongoose.Promise = global.Promise
 
@@ -27,6 +28,10 @@ app.use('/api/pdf',pdf)
 app.use('/api/traddingitems',traddingitems)
 app.use('/api/traddingdate',traddingdate)
 app.use('/api/news',news)
+app.use('/api/strategy',strategy)
+app.use('/api/traddinggroup',traddinggroup)
+
+
 
 app.listen(port, () => {
   console.log(`${pkg.name} listening on port ${port}`)

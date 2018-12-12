@@ -7,8 +7,9 @@
         <mu-tab>TAB ITEM 3</mu-tab>
       </mu-tabs>
     </mu-appbar> -->
-    
-    <router-view></router-view>
+    <transition :name="transitionName">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
@@ -22,8 +23,16 @@ export default {
       title  : 'xLog',
       zDepth : 2,
       active : 0,
+      transitionName:'',
     }
-  }
+  },
+  watch: {
+    '$route' (to, from) {
+      const toDepth = to.path.split('/').length
+      const fromDepth = from.path.split('/').length
+      this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+    }
+  },
 }
 </script>
 

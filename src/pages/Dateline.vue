@@ -243,6 +243,7 @@ export default {
       return this.$http.get('/api/traddingdate/getall')
         .then(res => {
           let result =  res.data;
+          console.log(result)
           return result;
         })
         .catch(err => {

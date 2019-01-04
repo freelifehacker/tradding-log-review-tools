@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <title>Tradding Log Review Tool</title>
     <script src="static/front-js/vue-echarts.js"></script>
+    <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.slim.js"></script>
+    <script type="text/javascript">
+      var socket = io.connect('http://127.0.0.1:5000/', { transports: ['websocket'] });
+    </script>
   </head>
   <body>
     <div id="app"></div>

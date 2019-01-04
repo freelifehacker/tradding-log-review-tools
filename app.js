@@ -12,6 +12,7 @@ const traddingitems = require('./router/traddingitems')
 const traddingdate = require('./router/traddingdate')
 const strategy = require('./router/strategy')
 const traddinggroup = require('./router/traddinggroup')
+
 mongoose.connect(config.mongodb)
 mongoose.Promise = global.Promise
 

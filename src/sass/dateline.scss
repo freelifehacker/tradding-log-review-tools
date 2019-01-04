@@ -1,211 +1,211 @@
 .title-fixed{
-  height: 40px;
-  background:#000;
-  color:#fff;
-  position:sticky;
-  width: 100%;
-  top:0;
-  z-index: 99999;
-  text-align: left;
-  padding-left: 100px;
-  .fold-all{
     height: 40px;
-    line-height: 40px;
-    font-size: 12px;
-    text-align: center;
-    width: 100px;
-    position: absolute;
-    left: 0;
-  }
+    background:#000;
+    color:#fff;
+    position:sticky;
+    width: 100%;
+    top:0;
+    z-index: 99999;
+    text-align: left;
+    padding-left: 100px;
+    .fold-all{
+        height: 40px;
+        line-height: 40px;
+        font-size: 12px;
+        text-align: center;
+        width: 100px;
+        position: absolute;
+        left: 0;
+    }
 }
 .year-sum{
-  background:#000;
-  height: 40px;
-  position: fixed;
-  bottom:0;
-  width: 100%;
-  padding-left: 426px;
-  text-align: left;
-  z-index: 99999;
-  .year-ab{
-    color:#ccc;
+    background:#000;
     height: 40px;
-    line-height: 40px;
-    font-size: 20px;
-    font-weight: bold;
-  }
+    position: fixed;
+    bottom:0;
+    width: 100%;
+    padding-left: 426px;
+    text-align: left;
+    z-index: 99999;
+    .year-ab{
+        color:#ccc;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        font-weight: bold;
+    }
 }
 .title-fixed{
-  span{
-    text-align: left;
-    font-size: 14px;
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    &.start,&.end,&.ab{
-      width:118px;
+    span{
+        text-align: left;
+        font-size: 14px;
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        &.start,&.end,&.ab{
+            width:118px;
+        }
+        &.rate{
+            width: 70px;
+        }
+        &.ab{
+            width: 120px;
+        }
     }
-    &.rate{
-      width: 70px;
-    }
-    &.ab{
-      width: 120px;
-    }
-  }
 }
 .dateline-wrapper{
-  width: 100%;
+    width: 100%;
 }
 .month-wrapper{
-  position: relative;
-  border-top:1px solid #aaa;
-  display: none;
-  &.has-data{
-    display: block;
-  }
-  .month-title{
-    height: 50px;
-    line-height: 50px;
-    font-size:30px;
-    font-weight: bold;
-    text-align: left;
-    padding-left:20px;
-    box-sizing:border-box;
-    overflow: hidden;
-    .month{
-      float: left;
-    }
-  }
-  &.active{
-    .days-block{
-      display: block;
-    }    
-    .month-title{
-      border-bottom: 1px solid #ccc;
-    }
-  }
-  .days-block{
-    display: none;
-    padding-left: 50px;
-  }
-  .days-wrapper{
-    padding:5px 0;
+    position: relative;
+    border-top:1px solid #aaa;
     display: none;
     &.has-data{
-      display: block;
-    }
-    &.active{
-      .day-detail{
         display: block;
-      }
     }
-  }
-  .day-row{
-    position: relative;
-    overflow: hidden;
-    height: 40px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-
-    &:hover{
-      background: #eee;
-      .icon-plus-circle{
-        display: block;
-      }
-    }
-    .icon-plus-circle{
-      cursor: pointer;
-      display: none;
-      color:#aaa;
-      font-size:40px;
-      position: absolute;
-      right: 20px;
-      top:-10px;
-    }
-
-  }
-  .day-assets,.month-assets{
-    float: left;
-    display: block;
-    height: 40px;
-  }
-  .month-assets{
-    margin-left: 34px;
-  }
-  .day-assets,.month-assets{
-    span{
-      text-align: left;
-      font-size: 14px;
-      display: inline-block;
-      height: 40px;
-      line-height: 40px;
-      padding:0 12px;
-      &.start,&.end,&.ab{
-        width:120px;
-      }
-      &.rate{
-        width: 80px;
-      }
-    }
-  }
-  .day{
-    display: block;
-    float: left;
-    line-height: 40px;
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
-    box-sizing:border-box;
-    border:1px solid #aaa;
-    color:#aaa;
-
-    &.active{
-      color:#000;
-      border:1px solid #000;
-    }
-    &.is-up{
-      color:#fff;
-      background:red;
-    }
-    &.is-down{
-      color:#fff;
-      background:green;
-    }
-  }
-  .day-detail{
-    display: none;
-    padding-left: 50px;
-    text-align: left;
-    .tradding-row{
-      position: relative;
-      height: 40px;
-      border-bottom: 1px dashed #aaa;
-
-      .icon-plus-circle{
-        cursor: pointer;
-        display: none;
-        color:#aaa;
+    .month-title{
+        height: 50px;
+        line-height: 50px;
         font-size:30px;
-        position: absolute;
-        right: 20px;
-        top:-3px; 
-      }
-      &:hover{
-        background: #eee;
-        .icon-plus-circle{
-          display: block!important;
+        font-weight: bold;
+        text-align: left;
+        padding-left:20px;
+        box-sizing:border-box;
+        overflow: hidden;
+        .month{
+            float: left;
         }
-      }
     }
-    .tradding-direction{
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      border-radius: 30px;
-      border:1px dotted #aaa;
-      text-align: center;
-      margin-top: 5px;
+    &.active{
+        .days-block{
+            display: block;
+        }        
+        .month-title{
+            border-bottom: 1px solid #ccc;
+        }
     }
-  }
+    .days-block{
+        display: none;
+        padding-left: 50px;
+    }
+    .days-wrapper{
+        padding:5px 0;
+        display: none;
+        &.has-data{
+            display: block;
+        }
+        &.active{
+            .day-detail{
+                display: block;
+            }
+        }
+    }
+    .day-row{
+        position: relative;
+        overflow: hidden;
+        height: 40px;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+
+        &:hover{
+            background: #eee;
+            .icon-plus-circle{
+                display: block;
+            }
+        }
+        .icon-plus-circle{
+            cursor: pointer;
+            display: none;
+            color:#aaa;
+            font-size:40px;
+            position: absolute;
+            right: 20px;
+            top:-10px;
+        }
+
+    }
+    .day-assets,.month-assets{
+        float: left;
+        display: block;
+        height: 40px;
+    }
+    .month-assets{
+        margin-left: 34px;
+    }
+    .day-assets,.month-assets{
+        span{
+            text-align: left;
+            font-size: 14px;
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            padding:0 12px;
+            &.start,&.end,&.ab{
+                width:120px;
+            }
+            &.rate{
+                width: 80px;
+            }
+        }
+    }
+    .day{
+        display: block;
+        float: left;
+        line-height: 40px;
+        width: 40px;
+        height: 40px;
+        border-radius: 40px;
+        box-sizing:border-box;
+        border:1px solid #aaa;
+        color:#aaa;
+
+        &.active{
+            color:#000;
+            border:1px solid #000;
+        }
+        &.is-up{
+            color:#fff;
+            background:red;
+        }
+        &.is-down{
+            color:#fff;
+            background:green;
+        }
+    }
+    .day-detail{
+        display: none;
+        padding-left: 50px;
+        text-align: left;
+        .tradding-row{
+            position: relative;
+            height: 40px;
+            border-bottom: 1px dashed #aaa;
+
+            .icon-plus-circle{
+                cursor: pointer;
+                display: none;
+                color:#aaa;
+                font-size:30px;
+                position: absolute;
+                right: 20px;
+                top:-3px; 
+            }
+            &:hover{
+                background: #eee;
+                .icon-plus-circle{
+                    display: block!important;
+                }
+            }
+        }
+        .tradding-direction{
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 30px;
+            border:1px dotted #aaa;
+            text-align: center;
+            margin-top: 5px;
+        }
+    }
 }

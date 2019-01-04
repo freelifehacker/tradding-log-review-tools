@@ -1,26 +1,26 @@
 .kline-wrapper{
-  position: relative;
+    position: relative;
 }
 .filter-form{
-  padding:0 20px;
-  .filter-item-130{
-    width: 130px;
-  }
-  .filter-item-100{
-    width: 100px;
-  }
+    padding:0 20px;
+    .filter-item-130{
+        width: 130px;
+    }
+    .filter-item-100{
+        width: 100px;
+    }
 }
 .kline-content{
-  position: absolute;
-  top:100px;
-  bottom:0;
-  left: 0;
-  right: 0;
+    position: absolute;
+    top:100px;
+    bottom:0;
+    left: 0;
+    right: 0;
 }
 .kline-canvas{
-  position: absolute;
-  left: 0; 
-  right: 0;
-  bottom:0;
-  top:0;
+    position: absolute;
+    left: 0; 
+    right: 0;
+    bottom:0;
+    top:0;
 }

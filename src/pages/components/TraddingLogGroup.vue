@@ -22,7 +22,7 @@
 			{{group.platformCost.toFixed(2)}}
 		</div>
 		<div class="delete">
-    	<mu-icon @click="deleteGroupedData" value="delete_forever" color="red"></mu-icon>
+        	<mu-icon @click="deleteGroupedData" value="delete_forever" color="red"></mu-icon>
 		</div>
 	</div>
 </template>
@@ -38,50 +38,50 @@ export default {
 			type:Object,
 		}
 	},
-  components: {
+    components: {
 
-  },
-  created(){
-    // this.getTraddingLog();
-    // this.getTraddingDate();
-  },
-  beforeMount(){
+    },
+    created(){
+        // this.getTraddingLog();
+        // this.getTraddingDate();
+    },
+    beforeMount(){
 
-  },
-  mounted() { 
-  	// let start = moment(this.group.dateStart,"YYYYMMDD HH:mm:ss");
-  	// let end = moment(this.group.dateEnd,"YYYYMMDD HH:mm:ss");
-  	// let gap = moment(end - start)
-  	// console.log(start)
-  	// console.log(end)
-  	// console.log(gap.format('HH小时mm分ss秒'))
-  },
-  data() {
-    return {
+    },
+    mounted() { 
+    	// let start = moment(this.group.dateStart,"YYYYMMDD HH:mm:ss");
+    	// let end = moment(this.group.dateEnd,"YYYYMMDD HH:mm:ss");
+    	// let gap = moment(end - start)
+    	// console.log(start)
+    	// console.log(end)
+    	// console.log(gap.format('HH小时mm分ss秒'))
+    },
+    data() {
+        return {
+        }
+    },
+    methods: {
+        deleteGroupedData(){
+        	let id = this.group._id;
+        	this.$http.put(`/api/traddinggroup/delete/${id}`,{})
+                .then(res => {
+                    this.toastr.success("删除!");
+                })
+                .catch(err => console.log(err))
+        },
+        showDetail(){
+        	let id = this.group._id;
+        	this.$http.get(`/api/traddinggroup/get/${id}`,{})
+                .then(res => {
+                    console.log(res);
+                    // this.toastr.success("删除!");
+                })
+                .catch(err => console.log(err))
+        },
     }
-  },
-  methods: {
-    deleteGroupedData(){
-    	let id = this.group._id;
-    	this.$http.put(`/api/traddinggroup/delete/${id}`,{})
-        .then(res => {
-          this.toastr.success("删除!");
-        })
-        .catch(err => console.log(err))
-    },
-    showDetail(){
-    	let id = this.group._id;
-    	this.$http.get(`/api/traddinggroup/get/${id}`,{})
-        .then(res => {
-          console.log(res);
-          // this.toastr.success("删除!");
-        })
-        .catch(err => console.log(err))
-    },
-  }
 }
 </script>
 
 <style lang="scss">
-  @import "../../sass/components/tradding-log-group.scss";
+    @import "../../sass/components/tradding-log-group.scss";
 </style>
